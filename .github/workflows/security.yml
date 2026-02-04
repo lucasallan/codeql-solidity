@@ -33,7 +33,7 @@ jobs:
         working-directory: extractor
 
       - name: Upload SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: sbom
           path: extractor/bom.json
