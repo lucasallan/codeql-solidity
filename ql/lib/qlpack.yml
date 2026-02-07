@@ -1,5 +1,5 @@
-name: lucasallan/solidity-all
-version: 0.0.1
+name: lucasamorimca/solidity-all
+version: 0.1.0
 library: true
 extractor: solidity
 dbscheme: solidity.dbscheme

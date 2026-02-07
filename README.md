@@ -1,7 +1,7 @@
 # CodeQL Solidity
 
-[![Test](https://github.com/lucasallan/codeql-solidity/actions/workflows/test.yml/badge.svg)](https://github.com/lucasallan/codeql-solidity/actions/workflows/test.yml)
-[![Release](https://github.com/lucasallan/codeql-solidity/actions/workflows/release.yml/badge.svg)](https://github.com/lucasallan/codeql-solidity/releases)
+[![Test](https://github.com/lucasamorimca/codeql-solidity/actions/workflows/test.yml/badge.svg)](https://github.com/lucasamorimca/codeql-solidity/actions/workflows/test.yml)
+[![Release](https://github.com/lucasamorimca/codeql-solidity/actions/workflows/release.yml/badge.svg)](https://github.com/lucasamorimca/codeql-solidity/releases)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 CodeQL extractor and queries for Solidity smart contract security analysis.
@@ -17,13 +17,13 @@ CodeQL extractor and queries for Solidity smart contract security analysis.
 ### Download CodeQL Packs
 
 ```bash
-codeql pack download lucasallan/solidity-all
-codeql pack download lucasallan/solidity-queries
+codeql pack download lucasamorimca/solidity-all
+codeql pack download lucasamorimca/solidity-queries
 ```
 
 ### Download Extractor
 
-Download from [Releases](https://github.com/lucasallan/codeql-solidity/releases)
+Download from [Releases](https://github.com/lucasamorimca/codeql-solidity/releases)
 
 ## Usage
 
@@ -33,7 +33,7 @@ export CODEQL_EXTRACTOR_SOLIDITY_ROOT=/path/to/extractor-pack
 codeql database create db --language=solidity --source-root=/path/to/contracts
 
 # Run analysis
-codeql database analyze db lucasallan/solidity-queries --format=sarif-latest --output=results.sarif
+codeql database analyze db lucasamorimca/solidity-queries --format=sarif-latest --output=results.sarif
 ```
 
 ## Project Structure
@@ -41,8 +41,8 @@ codeql database analyze db lucasallan/solidity-queries --format=sarif-latest --o
 ```
 codeql-solidity/
 ├── extractor/           # Rust extractor binary
-├── ql/lib/              # QL library (lucasallan/solidity-all)
-├── queries/             # Security queries (lucasallan/solidity-queries)
+├── ql/lib/              # QL library (lucasamorimca/solidity-all)
+├── queries/             # Security queries (lucasamorimca/solidity-queries)
 ├── extractor-pack/      # CodeQL extractor configuration
 └── tests/               # Test fixtures
 ```

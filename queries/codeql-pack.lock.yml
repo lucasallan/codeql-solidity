@@ -1,4 +1,6 @@
 ---
 lockVersion: 1.0.0
-dependencies: {}
+dependencies:
+  lucasamorimca/solidity-all:
+    version: 0.1.0
 compiled: false

@@ -1,7 +1,7 @@
-name: lucasallan/solidity-queries
-version: 0.0.1
+name: lucasamorimca/solidity-queries
+version: 0.1.0
 library: false
 dependencies:
-  lucasallan/solidity-all: "*"
+  lucasamorimca/solidity-all: "*"
 groups:
   - solidity
