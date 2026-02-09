@@ -104,8 +104,22 @@ pub fn run(options: ExtractOptions) -> Result<()> {
         success_count, error_count
     );
 
-    if error_count > 0 {
-        warn!("Some files failed to extract");
+    if error_count > 0 && error_count == files.len() {
+        anyhow::bail!(
+            "All {} files failed to extract",
+            error_count
+        );
+    } else if error_count > 0 && error_count > files.len() / 2 {
+        anyhow::bail!(
+            "Too many extraction failures: {}/{} files failed",
+            error_count,
+            files.len()
+        );
+    } else if error_count > 0 {
+        warn!(
+            "{} files failed to extract (continuing with {} successful)",
+            error_count, success_count
+        );
     }
 
     Ok(())

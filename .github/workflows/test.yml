@@ -66,7 +66,8 @@ jobs:
         run: |
           if ! codeql pack test --additional-packs ql/lib tests 2>&1 | tee test-output.log; then
             if grep -q "No tests found\|Could not find any tests" test-output.log; then
-              echo "::warning::No CodeQL tests found in tests/"
+              echo "::error::No CodeQL tests found in tests/ — add .qlref test files"
+              exit 1
             else
               echo "::error::CodeQL query tests failed"
               exit 1

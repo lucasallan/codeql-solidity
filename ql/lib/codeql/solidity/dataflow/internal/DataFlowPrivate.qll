@@ -170,11 +170,8 @@ private predicate isTaintPropagatingOperator(string op) {
   op in ["+", "-", "*", "/", "%", "**"] or
   // Bitwise operators
   op in ["&", "|", "^", "~", "<<", ">>"] or
-  // These are NOT taint propagating (explicitly excluded):
-  // - Comparison: ==, !=, <, >, <=, >=
-  // - Logical: &&, ||
-  not isComparisonOperator(op) and
-  not isLogicalOperator(op)
+  // String concatenation (Solidity 0.8.12+)
+  op = "++"
 }
 
 /**

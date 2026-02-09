@@ -14,9 +14,9 @@ path = "src/main.rs"
 
 [dependencies]
 # Tree-sitter parsing
-# Use the latest version compatible with tree-sitter-solidity
+# Pin tree-sitter-solidity to prevent silent grammar changes from breaking extraction
 tree-sitter = "0.26"
-tree-sitter-solidity = { git = "https://github.com/JoranHonig/tree-sitter-solidity.git" }
+tree-sitter-solidity = { git = "https://github.com/JoranHonig/tree-sitter-solidity.git", rev = "4e938a46c7030dd001bc99e1ac0f0c750ac98254" }
 
 # CLI
 clap = { version = "4", features = ["derive", "env"] }
