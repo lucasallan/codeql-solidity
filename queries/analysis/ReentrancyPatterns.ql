@@ -15,6 +15,7 @@ import codeql.solidity.ast.internal.TreeSitter
 import codeql.solidity.callgraph.ExternalCalls
 import codeql.solidity.callgraph.CallResolution
 import codeql.solidity.controlflow.internal.ControlFlowGraphImpl
+import codeql.solidity.interprocedural.ModifierAnalysis
 
 /** Gets the contract name. */
 string getContractName(Solidity::ContractDeclaration contract) {
@@ -27,17 +28,8 @@ string getFunctionName(Solidity::FunctionDefinition func) {
 }
 
 /** Holds if a function has a reentrancy guard modifier. */
-predicate hasReentrancyGuard(Solidity::FunctionDefinition func) {
-  exists(Solidity::ModifierInvocation mod |
-    mod.getParent() = func and
-    (
-      mod.getValue().toLowerCase().matches("%nonreentrant%") or
-      mod.getValue().toLowerCase().matches("%lock%") or
-      mod.getValue().toLowerCase().matches("%mutex%") or
-      mod.getValue().toLowerCase().matches("%guard%")
-    )
-  )
-}
+// Use library's reentrancy guard detection (handles inherited modifiers)
+predicate hasReentrancyGuard = ModifierAnalysis::hasReentrancyGuard/1;
 
 /**
  * Holds if `id` refers to a state variable `varName` declared in `contract`.
