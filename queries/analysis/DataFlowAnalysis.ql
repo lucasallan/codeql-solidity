@@ -39,9 +39,9 @@ string formatMsgSender(Solidity::MemberExpression expr) {
     expr.getObject().(Solidity::Identifier).getValue() = "msg" and
     expr.getProperty().(Solidity::AstNode).getValue() = "sender" and
     result =
-      "taint_source|" + getContractName(contract) + "|" + getFunctionName(func) +
-        "|msg_sender|msg.sender|" + expr.getLocation().getFile().getName() + ":" +
-        expr.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_source\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) +
+        "\",\"sourceType\":\"msg_sender\",\"source\":\"msg.sender\",\"location\":\"" + expr.getLocation().getFile().getName() + ":" +
+        expr.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -55,9 +55,9 @@ string formatMsgValue(Solidity::MemberExpression expr) {
     expr.getObject().(Solidity::Identifier).getValue() = "msg" and
     expr.getProperty().(Solidity::AstNode).getValue() = "value" and
     result =
-      "taint_source|" + getContractName(contract) + "|" + getFunctionName(func) +
-        "|msg_value|msg.value|" + expr.getLocation().getFile().getName() + ":" +
-        expr.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_source\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) +
+        "\",\"sourceType\":\"msg_value\",\"source\":\"msg.value\",\"location\":\"" + expr.getLocation().getFile().getName() + ":" +
+        expr.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -71,9 +71,9 @@ string formatMsgData(Solidity::MemberExpression expr) {
     expr.getObject().(Solidity::Identifier).getValue() = "msg" and
     expr.getProperty().(Solidity::AstNode).getValue() = "data" and
     result =
-      "taint_source|" + getContractName(contract) + "|" + getFunctionName(func) +
-        "|msg_data|msg.data|" + expr.getLocation().getFile().getName() + ":" +
-        expr.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_source\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) +
+        "\",\"sourceType\":\"msg_data\",\"source\":\"msg.data\",\"location\":\"" + expr.getLocation().getFile().getName() + ":" +
+        expr.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -87,9 +87,9 @@ string formatBlockTimestamp(Solidity::MemberExpression expr) {
     expr.getObject().(Solidity::Identifier).getValue() = "block" and
     expr.getProperty().(Solidity::AstNode).getValue() = "timestamp" and
     result =
-      "taint_source|" + getContractName(contract) + "|" + getFunctionName(func) +
-        "|block_timestamp|block.timestamp|" + expr.getLocation().getFile().getName() + ":" +
-        expr.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_source\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) +
+        "\",\"sourceType\":\"block_timestamp\",\"source\":\"block.timestamp\",\"location\":\"" + expr.getLocation().getFile().getName() + ":" +
+        expr.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -103,9 +103,9 @@ string formatTxOrigin(Solidity::MemberExpression expr) {
     expr.getObject().(Solidity::Identifier).getValue() = "tx" and
     expr.getProperty().(Solidity::AstNode).getValue() = "origin" and
     result =
-      "taint_source|" + getContractName(contract) + "|" + getFunctionName(func) +
-        "|tx_origin|tx.origin|" + expr.getLocation().getFile().getName() + ":" +
-        expr.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_source\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) +
+        "\",\"sourceType\":\"tx_origin\",\"source\":\"tx.origin\",\"location\":\"" + expr.getLocation().getFile().getName() + ":" +
+        expr.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -128,10 +128,10 @@ string formatParameter(Solidity::Parameter param) {
     ) and
     visibility in ["external", "public"] and
     result =
-      "param_source|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + paramName +
-        "|" + param.getType().(Solidity::AstNode).toString() + "|" +
+      "{\"type\":\"param_source\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"paramName\":\"" + paramName +
+        "\",\"paramType\":\"" + param.getType().(Solidity::AstNode).toString() + "\",\"location\":\"" +
         param.getLocation().getFile().getName() + ":" +
-        param.getLocation().getStartLine().toString()
+        param.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -157,9 +157,9 @@ string formatExternalCallSink(Solidity::CallExpression call) {
       not ExternalCalls::isLowLevelCall(call) and sinkType = "high_level_call"
     ) and
     result =
-      "taint_sink|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + sinkType +
-        "|" + call.getLocation().getFile().getName() + ":" +
-        call.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_sink\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"sinkType\":\"" + sinkType +
+        "\",\"location\":\"" + call.getLocation().getFile().getName() + ":" +
+        call.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -172,9 +172,9 @@ string formatEtherTransferSink(Solidity::CallExpression call) {
     call.getParent+() = func and
     func.getParent+() = contract and
     result =
-      "taint_sink|" + getContractName(contract) + "|" + getFunctionName(func) + "|ether_transfer|" +
+      "{\"type\":\"taint_sink\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"sinkType\":\"ether_transfer\",\"location\":\"" +
         call.getLocation().getFile().getName() + ":" +
-        call.getLocation().getStartLine().toString()
+        call.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -192,9 +192,9 @@ string formatStateWriteSink(Solidity::AssignmentExpression assign) {
     sv.getParent+() = contract and
     sv.getName().(Solidity::AstNode).getValue() = id.getValue() and
     result =
-      "taint_sink|" + getContractName(contract) + "|" + getFunctionName(func) + "|state_write:" +
-        id.getValue() + "|" + assign.getLocation().getFile().getName() + ":" +
-        assign.getLocation().getStartLine().toString()
+      "{\"type\":\"taint_sink\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"sinkType\":\"state_write:" +
+        id.getValue() + "\",\"location\":\"" + assign.getLocation().getFile().getName() + ":" +
+        assign.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -216,9 +216,9 @@ string formatStateRead(Solidity::Identifier id) {
       id.getParent+() = assign.getLeft()
     ) and
     result =
-      "state_read|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + id.getValue()
-        + "|" + id.getLocation().getFile().getName() + ":" +
-        id.getLocation().getStartLine().toString()
+      "{\"type\":\"state_read\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"variable\":\"" + id.getValue()
+        + "\",\"location\":\"" + id.getLocation().getFile().getName() + ":" +
+        id.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -237,9 +237,9 @@ string formatStateWrite(Solidity::AssignmentExpression assign) {
     sv.getParent+() = contract and
     sv.getName().(Solidity::AstNode).getValue() = id.getValue() and
     result =
-      "state_write|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + id.getValue()
-        + "|" + assign.getLocation().getFile().getName() + ":" +
-        assign.getLocation().getStartLine().toString()
+      "{\"type\":\"state_write\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"variable\":\"" + id.getValue()
+        + "\",\"location\":\"" + assign.getLocation().getFile().getName() + ":" +
+        assign.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -253,8 +253,8 @@ string formatReturn(Solidity::ReturnStatement ret) {
     ret.getParent+() = func and
     func.getParent+() = contract and
     result =
-      "return|" + getContractName(contract) + "|" + getFunctionName(func) + "|" +
-        ret.getLocation().getFile().getName() + ":" + ret.getLocation().getStartLine().toString()
+      "{\"type\":\"return\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"location\":\"" +
+        ret.getLocation().getFile().getName() + ":" + ret.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -274,9 +274,9 @@ string formatValidation(Solidity::CallExpression call) {
       call.getFunction().(Solidity::Identifier).getValue() = "revert" and valType = "revert"
     ) and
     result =
-      "validation|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + valType + "|" +
+      "{\"type\":\"validation\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"validationType\":\"" + valType + "\",\"location\":\"" +
         call.getLocation().getFile().getName() + ":" +
-        call.getLocation().getStartLine().toString()
+        call.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -303,9 +303,9 @@ string formatConditional(Solidity::IfStatement ifStmt) {
       hasTaint = "none"
     ) and
     result =
-      "conditional|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + hasTaint +
-        "|" + ifStmt.getLocation().getFile().getName() + ":" +
-        ifStmt.getLocation().getStartLine().toString()
+      "{\"type\":\"conditional\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"hasTaint\":\"" + hasTaint +
+        "\",\"location\":\"" + ifStmt.getLocation().getFile().getName() + ":" +
+        ifStmt.getLocation().getStartLine().toString() + "\"}"
   )
 }
 

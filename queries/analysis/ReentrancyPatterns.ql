@@ -169,9 +169,9 @@ string formatCEIViolation(Solidity::CallExpression call) {
         directlyModifiesState(mod, contract, varName) and
         callReachesStateMod(call, mod) and
         result =
-          "cei_violation|" + getContractName(contract) + "|" + getFunctionName(func) + "|" +
-            call.getLocation().getStartLine().toString() + "|" +
-            mod.getLocation().getStartLine().toString() + "|" + varName
+          "{\"type\":\"cei_violation\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"callLine\":\"" +
+            call.getLocation().getStartLine().toString() + "\",\"modLine\":\"" +
+            mod.getLocation().getStartLine().toString() + "\",\"variable\":\"" + varName + "\"}"
       )
       or
       // Case 2: Internal call after external call, callee modifies state
@@ -182,10 +182,9 @@ string formatCEIViolation(Solidity::CallExpression call) {
         callReachesStateMod(call, internalCall) and
         functionModifiesState(callee, contract, varName) and
         result =
-          "cei_violation|interprocedural|" + getContractName(contract) + "|" +
-            getFunctionName(func) + "|" + call.getLocation().getStartLine().toString() + "|" +
-            internalCall.getLocation().getStartLine().toString() + "|" +
-            getFunctionName(callee) + "|" + varName
+          "{\"type\":\"cei_violation\",\"subtype\":\"interprocedural\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" +
+            getFunctionName(func) + "\",\"callLine\":\"" + call.getLocation().getStartLine().toString() + "\",\"internalCallLine\":\"" +
+            internalCall.getLocation().getStartLine().toString() + "\",\"callee\":\"" + getFunctionName(callee) + "\",\"variable\":\"" + varName + "\"}"
       )
     )
   )
@@ -220,9 +219,9 @@ string formatExternalCall(Solidity::CallExpression call) {
       if hasReentrancyGuard(func) then hasGuard = "true" else hasGuard = "false"
     ) and
     result =
-      "external_call|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + callType +
-        "|" + hasGuard + "|" + call.getLocation().getFile().getName() + ":" +
-        call.getLocation().getStartLine().toString()
+      "{\"type\":\"external_call\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"callType\":\"" + callType +
+        "\",\"hasGuard\":\"" + hasGuard + "\",\"location\":\"" + call.getLocation().getFile().getName() + ":" +
+        call.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -237,8 +236,8 @@ string formatStateMod(Solidity::AstNode mod) {
     func.getParent+() = contract and
     directlyModifiesState(mod, contract, varName) and
     result =
-      "state_mod|" + getContractName(contract) + "|" + getFunctionName(func) + "|" + varName + "|" +
-        mod.getLocation().getStartLine().toString()
+      "{\"type\":\"state_mod\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"variable\":\"" + varName + "\",\"line\":\"" +
+        mod.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -254,9 +253,9 @@ string formatUnguardedFunction(Solidity::FunctionDefinition func) {
     extCalls > 0 and
     stateMods > 0 and
     result =
-      "unguarded_external|" + getContractName(contract) + "|" + getFunctionName(func) + "|" +
-        extCalls.toString() + "|" + stateMods.toString() + "|" +
-        func.getLocation().getFile().getName() + ":" + func.getLocation().getStartLine().toString()
+      "{\"type\":\"unguarded_external\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + getFunctionName(func) + "\",\"externalCalls\":\"" +
+        extCalls.toString() + "\",\"stateMods\":\"" + stateMods.toString() + "\",\"location\":\"" +
+        func.getLocation().getFile().getName() + ":" + func.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -286,8 +285,8 @@ string formatCallback(Solidity::FunctionDefinition func) {
       funcName.toLowerCase().matches("%flashloan%")
     ) and
     result =
-      "callback|" + getContractName(contract) + "|" + funcName + "|" +
-        func.getLocation().getFile().getName() + ":" + func.getLocation().getStartLine().toString()
+      "{\"type\":\"callback\",\"contract\":\"" + getContractName(contract) + "\",\"function\":\"" + funcName + "\",\"location\":\"" +
+        func.getLocation().getFile().getName() + ":" + func.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
@@ -303,8 +302,8 @@ string formatEthReceiver(Solidity::FunctionDefinition func) {
       getFunctionName(func) = "fallback" and funcType = "fallback"
     ) and
     result =
-      "eth_receiver|" + getContractName(contract) + "|" + funcType + "|" +
-        func.getLocation().getFile().getName() + ":" + func.getLocation().getStartLine().toString()
+      "{\"type\":\"eth_receiver\",\"contract\":\"" + getContractName(contract) + "\",\"functionType\":\"" + funcType + "\",\"location\":\"" +
+        func.getLocation().getFile().getName() + ":" + func.getLocation().getStartLine().toString() + "\"}"
   )
 }
 
