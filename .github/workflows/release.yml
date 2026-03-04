@@ -62,7 +62,7 @@ jobs:
           tar -czvf codeql-extractor-solidity-${{ matrix.name }}.tar.gz -C output .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.name }}
           path: codeql-extractor-solidity-${{ matrix.name }}.tar.gz
