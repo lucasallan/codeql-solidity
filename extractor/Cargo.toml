@@ -32,7 +32,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
 # Hashing for deterministic labels
-sha2 = "0.10"
+sha2 = "0.11"
 
 # Logging
 tracing = "0.1"
